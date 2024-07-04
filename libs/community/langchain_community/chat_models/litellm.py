@@ -1,4 +1,5 @@
 """Wrapper around LiteLLM's model I/O library."""
+
 from __future__ import annotations
 
 import logging
@@ -83,10 +84,14 @@ def _convert_dict_to_message(_dict: Mapping[str, Any]) -> BaseMessage:
         # Fix for azure
         # Also OpenAI returns None for tool invocations
         content = _dict.get("content", "") or ""
+
+        additional_kwargs = {}
         if _dict.get("function_call"):
-            additional_kwargs = {"function_call": dict(_dict["function_call"])}
-        else:
-            additional_kwargs = {}
+            additional_kwargs["function_call"] = dict(_dict["function_call"])
+
+        if _dict.get("tool_calls"):
+            additional_kwargs["tool_calls"] = _dict["tool_calls"]
+
         return AIMessage(content=content, additional_kwargs=additional_kwargs)
     elif role == "system":
         return SystemMessage(content=_dict["content"])
@@ -131,9 +136,9 @@ def _convert_delta_to_message_chunk(
     elif role == "function" or default_class == FunctionMessageChunk:
         return FunctionMessageChunk(content=content, name=_dict["name"])
     elif role or default_class == ChatMessageChunk:
-        return ChatMessageChunk(content=content, role=role)
+        return ChatMessageChunk(content=content, role=role)  # type: ignore[arg-type]
     else:
-        return default_class(content=content)
+        return default_class(content=content)  # type: ignore[call-arg]
 
 
 def _convert_message_to_dict(message: BaseMessage) -> dict:
@@ -191,7 +196,7 @@ class ChatLiteLLM(BaseChatModel):
     n: int = 1
     """Number of chat completions to generate for each prompt. Note that the API may
        not return the full n completions if duplicates are generated."""
-    max_tokens: int = 256
+    max_tokens: Optional[int] = None
 
     max_retries: int = 6
 

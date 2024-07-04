@@ -18,6 +18,7 @@ jira = JiraAPIWrapper()
 toolkit = JiraToolkit.from_jira_api_wrapper(jira)
 ```
 """
+
 from typing import Optional
 
 from langchain_core.callbacks import CallbackManagerForToolRun
@@ -30,7 +31,7 @@ from langchain_community.utilities.jira import JiraAPIWrapper
 class JiraAction(BaseTool):
     """Tool that queries the Atlassian Jira API."""
 
-    api_wrapper: JiraAPIWrapper = Field(default_factory=JiraAPIWrapper)
+    api_wrapper: JiraAPIWrapper = Field(default_factory=JiraAPIWrapper)  # type: ignore[arg-type]
     mode: str
     name: str = ""
     description: str = ""

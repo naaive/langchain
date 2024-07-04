@@ -1,4 +1,5 @@
 """Wrapper around Google VertexAI chat-based models."""
+
 from __future__ import annotations
 
 import base64
@@ -205,7 +206,7 @@ def _get_question(messages: List[BaseMessage]) -> HumanMessage:
 
 @deprecated(
     since="0.0.12",
-    removal="0.2.0",
+    removal="0.3.0",
     alternative_import="langchain_google_vertexai.ChatVertexAI",
 )
 class ChatVertexAI(_VertexAICommon, BaseChatModel):

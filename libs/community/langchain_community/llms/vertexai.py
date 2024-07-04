@@ -35,7 +35,6 @@ if TYPE_CHECKING:
 # This is for backwards compatibility
 # We can remove after `langchain` stops importing it
 _response_to_generation = None
-completion_with_retry = None
 stream_completion_with_retry = None
 
 
@@ -203,7 +202,7 @@ class _VertexAICommon(_VertexAIBase):
 
 @deprecated(
     since="0.0.12",
-    removal="0.2.0",
+    removal="0.3.0",
     alternative_import="langchain_google_vertexai.VertexAI",
 )
 class VertexAI(_VertexAICommon, BaseLLM):
@@ -363,7 +362,7 @@ class VertexAI(_VertexAICommon, BaseLLM):
             generations.append(
                 [self._response_to_generation(r) for r in res.candidates]
             )
-        return LLMResult(generations=generations)
+        return LLMResult(generations=generations)  # type: ignore[arg-type]
 
     def _stream(
         self,
@@ -393,7 +392,7 @@ class VertexAI(_VertexAICommon, BaseLLM):
 
 @deprecated(
     since="0.0.12",
-    removal="0.2.0",
+    removal="0.3.0",
     alternative_import="langchain_google_vertexai.VertexAIModelGarden",
 )
 class VertexAIModelGarden(_VertexAIBase, BaseLLM):

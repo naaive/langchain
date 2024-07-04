@@ -5,6 +5,7 @@ You'll need to set WATSONX_APIKEY and WATSONX_PROJECT_ID environment variables.
 
 import os
 
+from ibm_watsonx_ai import Credentials  # type: ignore
 from ibm_watsonx_ai.foundation_models import Model, ModelInference  # type: ignore
 from ibm_watsonx_ai.foundation_models.utils.enums import (  # type: ignore
     DecodingMethods,
@@ -23,7 +24,7 @@ MODEL_ID = "google/flan-ul2"
 def test_watsonxllm_invoke() -> None:
     watsonxllm = WatsonxLLM(
         model_id=MODEL_ID,
-        url="https://us-south.ml.cloud.ibm.com",
+        url="https://us-south.ml.cloud.ibm.com",  # type: ignore[arg-type]
         project_id=WX_PROJECT_ID,
     )
     response = watsonxllm.invoke("What color sunflower is?")
@@ -41,7 +42,7 @@ def test_watsonxllm_invoke_with_params() -> None:
 
     watsonxllm = WatsonxLLM(
         model_id=MODEL_ID,
-        url="https://us-south.ml.cloud.ibm.com",
+        url="https://us-south.ml.cloud.ibm.com",  # type: ignore[arg-type]
         project_id=WX_PROJECT_ID,
         params=parameters,
     )
@@ -54,7 +55,7 @@ def test_watsonxllm_invoke_with_params() -> None:
 def test_watsonxllm_generate() -> None:
     watsonxllm = WatsonxLLM(
         model_id=MODEL_ID,
-        url="https://us-south.ml.cloud.ibm.com",
+        url="https://us-south.ml.cloud.ibm.com",  # type: ignore[arg-type]
         project_id=WX_PROJECT_ID,
     )
     response = watsonxllm.generate(["What color sunflower is?"])
@@ -68,7 +69,7 @@ def test_watsonxllm_generate() -> None:
 def test_watsonxllm_generate_with_multiple_prompts() -> None:
     watsonxllm = WatsonxLLM(
         model_id=MODEL_ID,
-        url="https://us-south.ml.cloud.ibm.com",
+        url="https://us-south.ml.cloud.ibm.com",  # type: ignore[arg-type]
         project_id=WX_PROJECT_ID,
     )
     response = watsonxllm.generate(
@@ -84,7 +85,7 @@ def test_watsonxllm_generate_with_multiple_prompts() -> None:
 def test_watsonxllm_generate_stream() -> None:
     watsonxllm = WatsonxLLM(
         model_id=MODEL_ID,
-        url="https://us-south.ml.cloud.ibm.com",
+        url="https://us-south.ml.cloud.ibm.com",  # type: ignore[arg-type]
         project_id=WX_PROJECT_ID,
     )
     response = watsonxllm.generate(["What color sunflower is?"], stream=True)
@@ -98,7 +99,7 @@ def test_watsonxllm_generate_stream() -> None:
 def test_watsonxllm_stream() -> None:
     watsonxllm = WatsonxLLM(
         model_id=MODEL_ID,
-        url="https://us-south.ml.cloud.ibm.com",
+        url="https://us-south.ml.cloud.ibm.com",  # type: ignore[arg-type]
         project_id=WX_PROJECT_ID,
     )
     response = watsonxllm.invoke("What color sunflower is?")
@@ -135,12 +136,12 @@ def test_watsonxllm_invoke_from_wx_model() -> None:
 
 
 def test_watsonxllm_invoke_from_wx_model_inference() -> None:
+    credentials = Credentials(
+        api_key=WX_APIKEY, url="https://us-south.ml.cloud.ibm.com"
+    )
     model = ModelInference(
         model_id=MODEL_ID,
-        credentials={
-            "apikey": WX_APIKEY,
-            "url": "https://us-south.ml.cloud.ibm.com",
-        },
+        credentials=credentials,
         project_id=WX_PROJECT_ID,
     )
     watsonxllm = WatsonxLLM(watsonx_model=model)
@@ -203,7 +204,7 @@ def test_watsonxllm_invoke_from_wx_model_inference_with_params_as_enum() -> None
 async def test_watsonx_ainvoke() -> None:
     watsonxllm = WatsonxLLM(
         model_id=MODEL_ID,
-        url="https://us-south.ml.cloud.ibm.com",
+        url="https://us-south.ml.cloud.ibm.com",  # type: ignore[arg-type]
         project_id=WX_PROJECT_ID,
     )
     response = await watsonxllm.ainvoke("What color sunflower is?")
@@ -213,7 +214,7 @@ async def test_watsonx_ainvoke() -> None:
 async def test_watsonx_agenerate() -> None:
     watsonxllm = WatsonxLLM(
         model_id=MODEL_ID,
-        url="https://us-south.ml.cloud.ibm.com",
+        url="https://us-south.ml.cloud.ibm.com",  # type: ignore[arg-type]
         project_id=WX_PROJECT_ID,
     )
     response = await watsonxllm.agenerate(
@@ -226,7 +227,7 @@ async def test_watsonx_agenerate() -> None:
 def test_get_num_tokens() -> None:
     watsonxllm = WatsonxLLM(
         model_id=MODEL_ID,
-        url="https://us-south.ml.cloud.ibm.com",
+        url="https://us-south.ml.cloud.ibm.com",  # type: ignore[arg-type]
         project_id=WX_PROJECT_ID,
     )
     num_tokens = watsonxllm.get_num_tokens("What color sunflower is?")

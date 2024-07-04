@@ -107,8 +107,7 @@ class DynamicRunnable(RunnableSerializable[Input, Output]):
     @abstractmethod
     def _prepare(
         self, config: Optional[RunnableConfig] = None
-    ) -> Tuple[Runnable[Input, Output], RunnableConfig]:
-        ...
+    ) -> Tuple[Runnable[Input, Output], RunnableConfig]: ...
 
     def invoke(
         self, input: Input, config: Optional[RunnableConfig] = None, **kwargs: Any
@@ -641,7 +640,8 @@ def make_options_spec(
     description: Optional[str],
 ) -> ConfigurableFieldSpec:
     """Make a ConfigurableFieldSpec for a ConfigurableFieldSingleOption or
-    ConfigurableFieldMultiOption."""
+    ConfigurableFieldMultiOption.
+    """
     with _enums_for_spec_lock:
         if enum := _enums_for_spec.get(spec):
             pass
